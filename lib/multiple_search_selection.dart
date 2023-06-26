@@ -42,8 +42,8 @@ class MultipleSearchSelection<T> extends StatefulWidget {
     double? showedItemContainerHeight,
     EdgeInsets? showedItemContainerPadding,
     bool? showShowedItemsScrollbar,
-    bool? showSelectAllButton,
-    bool? showClearAllButton,
+    bool showSelectAllButton = false,
+    bool showClearAllButton = false,
     bool showClearSearchFieldButton = false,
     InputDecoration? searchFieldInputDecoration,
     TextStyle? searchFieldTextStyle,
@@ -182,8 +182,8 @@ class MultipleSearchSelection<T> extends StatefulWidget {
     double? showedItemContainerHeight,
     EdgeInsets? showedItemContainerPadding,
     bool? showShowedItemsScrollbar,
-    bool? showSelectAllButton,
-    bool? showClearAllButton,
+    bool showSelectAllButton = false,
+    bool showClearAllButton = false,
     InputDecoration? searchFieldInputDecoration,
     bool showClearSearchFieldButton = false,
     TextStyle? searchFieldTextStyle,
@@ -316,7 +316,7 @@ class MultipleSearchSelection<T> extends StatefulWidget {
     this.title,
     this.maximumShowItemsHeight = 150,
     this.showClearAllButton = true,
-    this.showSelectAllButton = true,
+    this.showSelectAllButton = false,
     this.showClearSearchFieldButton = false,
     this.sortPickedItems = false,
     this.sortShowedItems = false,
@@ -414,11 +414,11 @@ class MultipleSearchSelection<T> extends StatefulWidget {
   /// Hide or show items' scrollbar, defaults to [true].
   final bool? showShowedItemsScrollbar;
 
-  /// Hide or show select all button, defaults to [true].
-  final bool? showSelectAllButton;
+  /// Hide or show select all button, defaults to [false].
+  final bool showSelectAllButton;
 
-  /// Hide or show clear all button, defaults to [true].
-  final bool? showClearAllButton;
+  /// Hide or show clear all button, defaults to [false].
+  final bool showClearAllButton;
 
   /// Hide or show clear text field button, defaults to [false]
   final bool showClearSearchFieldButton;
@@ -1156,7 +1156,7 @@ class _MultipleSearchSelectionState<T>
             ],
           )
         ],
-        if (widget.itemsVisibility != ShowedItemsVisibility.toggle)
+        if (widget.showClearAllButton || widget.showSelectAllButton)
           const SizedBox(
             height: 8,
           ),
@@ -1167,7 +1167,10 @@ class _MultipleSearchSelectionState<T>
                   color: colorScheme.surface,
                   border: Border(
                     top: BorderSide(
-                      color: colorScheme.outline,
+                      color: widget.showClearAllButton ||
+                              widget.showSelectAllButton
+                          ? colorScheme.outline
+                          : Colors.transparent,
                     ),
                     left: BorderSide(
                       color: colorScheme.outline,
