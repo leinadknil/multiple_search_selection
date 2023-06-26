@@ -863,7 +863,7 @@ class _MultipleSearchSelectionState<T>
                   ),
                 )
               : Padding(
-                  padding: const EdgeInsets.all(6.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: widget.noResultsWidget ??
                       const Text(
                         'No results',
@@ -1013,7 +1013,7 @@ class _MultipleSearchSelectionState<T>
                                             InputDecoration(
                                               contentPadding:
                                                   const EdgeInsets.only(
-                                                left: 6,
+                                                left: 8,
                                               ),
                                               hintText: widget.hintText,
                                               hintStyle: const TextStyle(
@@ -1096,7 +1096,7 @@ class _MultipleSearchSelectionState<T>
                       ),
                     ),
                     const SizedBox(
-                      width: 10,
+                      width: 8,
                     ),
                   ],
                   if (widget.maxSelectedItems == null)
@@ -1123,7 +1123,7 @@ class _MultipleSearchSelectionState<T>
           )
         ],
         const SizedBox(
-          height: 10,
+          height: 8,
         ),
         if (widget.itemsVisibility != ShowedItemsVisibility.toggle)
           DecoratedBox(
@@ -1153,7 +1153,7 @@ class _MultipleSearchSelectionState<T>
               style: widget.searchFieldTextStyle,
               decoration: widget.searchFieldInputDecoration ??
                   InputDecoration(
-                    contentPadding: const EdgeInsets.only(left: 6),
+                    contentPadding: const EdgeInsets.only(left: 8),
                     hintText: widget.hintText,
                     hintStyle: const TextStyle(
                       fontSize: 14,
