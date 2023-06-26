@@ -1156,9 +1156,10 @@ class _MultipleSearchSelectionState<T>
             ],
           )
         ],
-        const SizedBox(
-          height: 8,
-        ),
+        if (widget.itemsVisibility != ShowedItemsVisibility.toggle)
+          const SizedBox(
+            height: 8,
+          ),
         if (widget.itemsVisibility != ShowedItemsVisibility.toggle)
           DecoratedBox(
             decoration: widget.searchFieldBoxDecoration ??
