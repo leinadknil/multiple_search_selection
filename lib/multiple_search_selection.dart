@@ -80,6 +80,8 @@ class MultipleSearchSelection<T> extends StatefulWidget {
     double? showedItemExtent,
     int? maxSelectedItems,
     void Function()? onDispose,
+    double? horizontalPaddingSearchTextField,
+    double? verticalPaddingSearchTextField,
   }) =>
       MultipleSearchSelection._(
         items: items,
@@ -148,6 +150,8 @@ class MultipleSearchSelection<T> extends StatefulWidget {
         hintText: hintText,
         showedItemExtent: showedItemExtent,
         onDispose: onDispose,
+        verticalPaddingSearchTextField: verticalPaddingSearchTextField,
+        horizontalPaddingSearchTextField: horizontalPaddingSearchTextField,
       );
 
   /// [MultipleSearchSelection.creatable] constructor provides a way to add a new item in your list,
@@ -215,6 +219,8 @@ class MultipleSearchSelection<T> extends StatefulWidget {
     double? showedItemExtent,
     int? maxSelectedItems,
     void Function()? onDispose,
+    double? verticalPaddingSearchTextField,
+    double? horizontalPaddingSearchTextField,
   }) =>
       MultipleSearchSelection._(
         items: items,
@@ -284,6 +290,8 @@ class MultipleSearchSelection<T> extends StatefulWidget {
         hintText: hintText,
         showedItemExtent: showedItemExtent,
         onDispose: onDispose,
+        horizontalPaddingSearchTextField: horizontalPaddingSearchTextField,
+        verticalPaddingSearchTextField: verticalPaddingSearchTextField,
       );
 
   const MultipleSearchSelection._({
@@ -349,6 +357,8 @@ class MultipleSearchSelection<T> extends StatefulWidget {
     this.hintText = 'Type here to search',
     this.showedItemExtent,
     this.onDispose,
+    this.horizontalPaddingSearchTextField,
+    this.verticalPaddingSearchTextField,
   });
 
   /// The maximum number of items that can be picked. If null, there is no limit.
@@ -616,6 +626,12 @@ class MultipleSearchSelection<T> extends StatefulWidget {
   /// When using this widget inside a stateless widget and there is a need to perform
   /// actions on dispose of the widget, you can use onDispose
   final Function()? onDispose;
+
+  /// Add horizontal padding to search text field
+  final double? horizontalPaddingSearchTextField;
+
+  /// Add vertical padding to search text field
+  final double? verticalPaddingSearchTextField;
 
   @override
   _MultipleSearchSelectionState<T> createState() =>
@@ -1005,43 +1021,53 @@ class _MultipleSearchSelectionState<T>
                                                   color: colorScheme.outline,
                                                 ),
                                               ),
-                                      child: TextField(
-                                        key: const Key('toggle-searchfield'),
-                                        focusNode: widget.textFieldFocus,
-                                        enabled: !maxItemsSelected,
-                                        controller: widget
-                                            .searchFieldTextEditingController,
-                                        style: widget.searchFieldTextStyle,
-                                        decoration: widget
-                                                .searchFieldInputDecoration ??
-                                            InputDecoration(
-                                              contentPadding:
-                                                  const EdgeInsets.only(
-                                                left: 8,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: widget
+                                                    .horizontalPaddingSearchTextField ??
+                                                0,
+                                            vertical: widget
+                                                    .verticalPaddingSearchTextField ??
+                                                0),
+                                        child: TextField(
+                                          key: const Key('toggle-searchfield'),
+                                          focusNode: widget.textFieldFocus,
+                                          enabled: !maxItemsSelected,
+                                          controller: widget
+                                              .searchFieldTextEditingController,
+                                          style: widget.searchFieldTextStyle,
+                                          decoration: widget
+                                                  .searchFieldInputDecoration ??
+                                              InputDecoration(
+                                                contentPadding:
+                                                    const EdgeInsets.only(
+                                                  left: 8,
+                                                ),
+                                                hintText: widget.hintText,
+                                                hintStyle: textTheme.labelLarge,
+                                                border: OutlineInputBorder(
+                                                  borderSide: BorderSide.none,
+                                                  borderRadius:
+                                                      BorderRadius.circular(16),
+                                                ),
+                                                suffixIcon: widget
+                                                        .showClearSearchFieldButton
+                                                    ? IconButton(
+                                                        onPressed:
+                                                            _onClearTextField,
+                                                        icon: const Icon(
+                                                          Icons.clear,
+                                                        ),
+                                                      )
+                                                    : null,
                                               ),
-                                              hintText: widget.hintText,
-                                              hintStyle: textTheme.labelLarge,
-                                              border: OutlineInputBorder(
-                                                borderSide: BorderSide.none,
-                                                borderRadius:
-                                                    BorderRadius.circular(16),
-                                              ),
-                                              suffixIcon: widget
-                                                      .showClearSearchFieldButton
-                                                  ? IconButton(
-                                                      onPressed:
-                                                          _onClearTextField,
-                                                      icon: const Icon(
-                                                        Icons.clear,
-                                                      ),
-                                                    )
-                                                  : null,
-                                            ),
-                                        onChanged: (value) {
-                                          showedItems = _searchAllItems(value);
-                                          setState(() {});
-                                          stateSetter(() {});
-                                        },
+                                          onChanged: (value) {
+                                            showedItems =
+                                                _searchAllItems(value);
+                                            setState(() {});
+                                            stateSetter(() {});
+                                          },
+                                        ),
                                       ),
                                     ),
                                     Container(
@@ -1153,37 +1179,43 @@ class _MultipleSearchSelectionState<T>
                     ),
                   ),
                 ),
-            child: TextField(
-              key: const Key('searchfield'),
-              focusNode: widget.textFieldFocus,
-              enabled: !maxItemsSelected,
-              controller: widget.searchFieldTextEditingController,
-              style: widget.searchFieldTextStyle,
-              decoration: widget.searchFieldInputDecoration ??
-                  InputDecoration(
-                    contentPadding: const EdgeInsets.only(left: 8),
-                    hintText: widget.hintText,
-                    hintStyle: textTheme.labelLarge,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(16),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: widget.horizontalPaddingSearchTextField ?? 0,
+                vertical: widget.verticalPaddingSearchTextField ?? 0,
+              ),
+              child: TextField(
+                key: const Key('searchfield'),
+                focusNode: widget.textFieldFocus,
+                enabled: !maxItemsSelected,
+                controller: widget.searchFieldTextEditingController,
+                style: widget.searchFieldTextStyle,
+                decoration: widget.searchFieldInputDecoration ??
+                    InputDecoration(
+                      contentPadding: const EdgeInsets.only(left: 8),
+                      hintText: widget.hintText,
+                      hintStyle: textTheme.labelLarge,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      suffixIcon: widget.showClearSearchFieldButton
+                          ? IconButton(
+                              onPressed: _onClearTextField,
+                              icon: const Icon(Icons.clear),
+                            )
+                          : null,
                     ),
-                    suffixIcon: widget.showClearSearchFieldButton
-                        ? IconButton(
-                            onPressed: _onClearTextField,
-                            icon: const Icon(Icons.clear),
-                          )
-                        : null,
-                  ),
-              onChanged: (value) {
-                showedItems = _searchAllItems(value);
-                if (widget.itemsVisibility == ShowedItemsVisibility.onType) {
-                  expanded = widget.itemsVisibility ==
-                          ShowedItemsVisibility.onType &&
-                      widget.searchFieldTextEditingController.text.isNotEmpty;
-                }
-                setState(() {});
-              },
+                onChanged: (value) {
+                  showedItems = _searchAllItems(value);
+                  if (widget.itemsVisibility == ShowedItemsVisibility.onType) {
+                    expanded = widget.itemsVisibility ==
+                            ShowedItemsVisibility.onType &&
+                        widget.searchFieldTextEditingController.text.isNotEmpty;
+                  }
+                  setState(() {});
+                },
+              ),
             ),
           ),
         if (expanded && widget.itemsVisibility != ShowedItemsVisibility.toggle)
