@@ -79,6 +79,7 @@ class MultipleSearchSelection<T> extends StatefulWidget {
     String hintText = 'Type here to search',
     double? showedItemExtent,
     int? maxSelectedItems,
+    void Function()? onDispose,
   }) =>
       MultipleSearchSelection._(
         items: items,
@@ -146,6 +147,7 @@ class MultipleSearchSelection<T> extends StatefulWidget {
         textFieldFocus: textFieldFocus ?? FocusNode(),
         hintText: hintText,
         showedItemExtent: showedItemExtent,
+        onDispose: onDispose,
       );
 
   /// [MultipleSearchSelection.creatable] constructor provides a way to add a new item in your list,
@@ -211,6 +213,7 @@ class MultipleSearchSelection<T> extends StatefulWidget {
     String hintText = 'Type here to search',
     double? showedItemExtent,
     int? maxSelectedItems,
+    void Function()? onDispose,
   }) =>
       MultipleSearchSelection._(
         items: items,
@@ -278,6 +281,7 @@ class MultipleSearchSelection<T> extends StatefulWidget {
         textFieldFocus: textFieldFocus ?? FocusNode(),
         hintText: hintText,
         showedItemExtent: showedItemExtent,
+        onDispose: onDispose,
       );
 
   const MultipleSearchSelection._({
@@ -342,6 +346,7 @@ class MultipleSearchSelection<T> extends StatefulWidget {
     this.pickedItemsContainerBuilder,
     this.hintText = 'Type here to search',
     this.showedItemExtent,
+    this.onDispose,
   });
 
   /// The maximum number of items that can be picked. If null, there is no limit.
@@ -606,6 +611,10 @@ class MultipleSearchSelection<T> extends StatefulWidget {
   /// The downside obviously would be that you can't have dynamic height items.
   final double? showedItemExtent;
 
+  /// When using this widget inside a stateless widget and there is a need to perform
+  /// actions on dispose of the widget, you can use onDispose
+  final Function()? onDispose;
+
   @override
   _MultipleSearchSelectionState<T> createState() =>
       _MultipleSearchSelectionState<T>();
@@ -647,6 +656,12 @@ class _MultipleSearchSelectionState<T>
     expanded = widget.itemsVisibility == ShowedItemsVisibility.alwaysOn;
 
     pickedItems.addAll(widget.initialPickedItems ?? []);
+  }
+
+  @override
+  void dispose() {
+    widget.onDispose?.call();
+    super.dispose();
   }
 
   List<T> _searchAllItems(String query) {
