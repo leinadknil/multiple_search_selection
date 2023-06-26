@@ -865,8 +865,9 @@ class _MultipleSearchSelectionState<T>
               : Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: widget.noResultsWidget ??
-                      const Text(
+                      Text(
                         'No results',
+                        style: Theme.of(context).textTheme.labelLarge,
                       ),
                 );
         }
@@ -890,6 +891,8 @@ class _MultipleSearchSelectionState<T>
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final TextTheme textTheme = Theme.of(context).textTheme;
     final bool maxItemsSelected = widget.maxSelectedItems != null &&
         (widget.maxSelectedItems!) <= pickedItems.length;
     return Column(
@@ -923,7 +926,7 @@ class _MultipleSearchSelectionState<T>
                 BoxDecoration(
                   border: pickedItems.isNotEmpty
                       ? Border.all(
-                          color: Colors.grey.withOpacity(0.5),
+                          color: colorScheme.outline,
                         )
                       : null,
                 ),
@@ -970,7 +973,7 @@ class _MultipleSearchSelectionState<T>
         if ((widget.showClearAllButton ?? true) ||
             widget.itemsVisibility == ShowedItemsVisibility.toggle) ...[
           const SizedBox(
-            height: 10,
+            height: 8,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -995,10 +998,9 @@ class _MultipleSearchSelectionState<T>
                                       decoration:
                                           widget.searchFieldBoxDecoration ??
                                               BoxDecoration(
-                                                color: Colors.white,
+                                                color: colorScheme.surface,
                                                 border: Border.all(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.5),
+                                                  color: colorScheme.outline,
                                                 ),
                                               ),
                                       child: TextField(
@@ -1016,14 +1018,11 @@ class _MultipleSearchSelectionState<T>
                                                 left: 8,
                                               ),
                                               hintText: widget.hintText,
-                                              hintStyle: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                              hintStyle: textTheme.labelLarge,
                                               border: OutlineInputBorder(
                                                 borderSide: BorderSide.none,
                                                 borderRadius:
-                                                    BorderRadius.circular(20),
+                                                    BorderRadius.circular(16),
                                               ),
                                               suffixIcon: widget
                                                       .showClearSearchFieldButton
@@ -1048,25 +1047,22 @@ class _MultipleSearchSelectionState<T>
                                         maxHeight:
                                             widget.maximumShowItemsHeight,
                                       ),
-                                      decoration: widget
-                                              .showedItemsBoxDecoration ??
-                                          BoxDecoration(
-                                            color: Colors.grey.withOpacity(0.1),
-                                            border: Border(
-                                              bottom: BorderSide(
-                                                color: Colors.grey
-                                                    .withOpacity(0.5),
+                                      decoration:
+                                          widget.showedItemsBoxDecoration ??
+                                              BoxDecoration(
+                                                color: colorScheme.surface,
+                                                border: Border(
+                                                  bottom: BorderSide(
+                                                    color: colorScheme.outline,
+                                                  ),
+                                                  left: BorderSide(
+                                                    color: colorScheme.outline,
+                                                  ),
+                                                  right: BorderSide(
+                                                    color: colorScheme.outline,
+                                                  ),
+                                                ),
                                               ),
-                                              left: BorderSide(
-                                                color: Colors.grey
-                                                    .withOpacity(0.5),
-                                              ),
-                                              right: BorderSide(
-                                                color: Colors.grey
-                                                    .withOpacity(0.5),
-                                              ),
-                                            ),
-                                          ),
                                       child: ScrollConfiguration(
                                         behavior:
                                             ScrollConfiguration.of(context)
@@ -1092,7 +1088,10 @@ class _MultipleSearchSelectionState<T>
                         child: maxItemsSelected
                             ? const SizedBox()
                             : widget.showItemsButton ??
-                                const Text('Show items'),
+                                Text(
+                                  'Show items',
+                                  style: textTheme.labelLarge,
+                                ),
                       ),
                     ),
                     const SizedBox(
@@ -1106,7 +1105,10 @@ class _MultipleSearchSelectionState<T>
                         onTap: _selectAllItems,
                         child: IgnorePointer(
                           child: widget.selectAllButton ??
-                              const Text('Select all'),
+                              Text(
+                                'Select all',
+                                style: textTheme.labelLarge,
+                              ),
                         ),
                       ),
                 ],
@@ -1116,7 +1118,11 @@ class _MultipleSearchSelectionState<T>
                   behavior: HitTestBehavior.opaque,
                   onTap: _clearAllPickedItems,
                   child: IgnorePointer(
-                    child: widget.clearAllButton ?? const Text('Clear all'),
+                    child: widget.clearAllButton ??
+                        Text(
+                          'Clear all',
+                          style: textTheme.labelLarge,
+                        ),
                   ),
                 )
             ],
@@ -1129,19 +1135,19 @@ class _MultipleSearchSelectionState<T>
           DecoratedBox(
             decoration: widget.searchFieldBoxDecoration ??
                 BoxDecoration(
-                  color: Colors.white,
+                  color: colorScheme.surface,
                   border: Border(
                     top: BorderSide(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: colorScheme.outline,
                     ),
                     left: BorderSide(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: colorScheme.outline,
                     ),
                     right: BorderSide(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: colorScheme.outline,
                     ),
                     bottom: BorderSide(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: colorScheme.outline,
                     ),
                   ),
                 ),
@@ -1155,13 +1161,10 @@ class _MultipleSearchSelectionState<T>
                   InputDecoration(
                     contentPadding: const EdgeInsets.only(left: 8),
                     hintText: widget.hintText,
-                    hintStyle: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    hintStyle: textTheme.labelLarge,
                     border: OutlineInputBorder(
                       borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                     suffixIcon: widget.showClearSearchFieldButton
                         ? IconButton(
@@ -1188,16 +1191,16 @@ class _MultipleSearchSelectionState<T>
             ),
             decoration: widget.showedItemsBoxDecoration ??
                 BoxDecoration(
-                  color: Colors.grey.withOpacity(0.1),
+                  color: colorScheme.surface,
                   border: Border(
                     bottom: BorderSide(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: colorScheme.outline,
                     ),
                     left: BorderSide(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: colorScheme.outline,
                     ),
                     right: BorderSide(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: colorScheme.outline,
                     ),
                   ),
                 ),
