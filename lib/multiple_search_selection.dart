@@ -82,6 +82,8 @@ class MultipleSearchSelection<T> extends StatefulWidget {
     void Function()? onDispose,
     double? horizontalPaddingSearchTextField,
     double? verticalPaddingSearchTextField,
+    Color? borderColor,
+    bool? searchFieldAutofocus,
   }) =>
       MultipleSearchSelection._(
         items: items,
@@ -152,6 +154,8 @@ class MultipleSearchSelection<T> extends StatefulWidget {
         onDispose: onDispose,
         verticalPaddingSearchTextField: verticalPaddingSearchTextField,
         horizontalPaddingSearchTextField: horizontalPaddingSearchTextField,
+        borderColor: borderColor,
+        searchFieldAutofocus: searchFieldAutofocus,
       );
 
   /// [MultipleSearchSelection.creatable] constructor provides a way to add a new item in your list,
@@ -221,6 +225,8 @@ class MultipleSearchSelection<T> extends StatefulWidget {
     void Function()? onDispose,
     double? verticalPaddingSearchTextField,
     double? horizontalPaddingSearchTextField,
+    Color? borderColor,
+    bool? searchFieldAutofocus,
   }) =>
       MultipleSearchSelection._(
         items: items,
@@ -292,6 +298,8 @@ class MultipleSearchSelection<T> extends StatefulWidget {
         onDispose: onDispose,
         horizontalPaddingSearchTextField: horizontalPaddingSearchTextField,
         verticalPaddingSearchTextField: verticalPaddingSearchTextField,
+        borderColor: borderColor,
+        searchFieldAutofocus: searchFieldAutofocus ?? false,
       );
 
   const MultipleSearchSelection._({
@@ -359,6 +367,8 @@ class MultipleSearchSelection<T> extends StatefulWidget {
     this.onDispose,
     this.horizontalPaddingSearchTextField,
     this.verticalPaddingSearchTextField,
+    this.borderColor,
+    this.searchFieldAutofocus,
   });
 
   /// The maximum number of items that can be picked. If null, there is no limit.
@@ -632,6 +642,12 @@ class MultipleSearchSelection<T> extends StatefulWidget {
 
   /// Add vertical padding to search text field
   final double? verticalPaddingSearchTextField;
+
+// border color
+  final Color? borderColor;
+
+  // Wheather the searchTextField should autofocus or not
+  final bool? searchFieldAutofocus;
 
   @override
   _MultipleSearchSelectionState<T> createState() =>
@@ -944,7 +960,7 @@ class _MultipleSearchSelectionState<T>
                 BoxDecoration(
                   border: pickedItems.isNotEmpty
                       ? Border.all(
-                          color: colorScheme.outline,
+                          color: widget.borderColor ?? colorScheme.outline,
                         )
                       : null,
                 ),
@@ -988,7 +1004,7 @@ class _MultipleSearchSelectionState<T>
               ),
             ),
           ),
-        if ((widget.showClearAllButton ?? true) ||
+        if ((widget.showClearAllButton) ||
             widget.itemsVisibility == ShowedItemsVisibility.toggle) ...[
           const SizedBox(
             height: 8,
@@ -1018,7 +1034,8 @@ class _MultipleSearchSelectionState<T>
                                               BoxDecoration(
                                                 color: colorScheme.surface,
                                                 border: Border.all(
-                                                  color: colorScheme.outline,
+                                                  color: widget.borderColor ??
+                                                      colorScheme.outline,
                                                 ),
                                               ),
                                       child: Padding(
@@ -1081,13 +1098,16 @@ class _MultipleSearchSelectionState<T>
                                                 color: colorScheme.surface,
                                                 border: Border(
                                                   bottom: BorderSide(
-                                                    color: colorScheme.outline,
+                                                    color: widget.borderColor ??
+                                                        colorScheme.outline,
                                                   ),
                                                   left: BorderSide(
-                                                    color: colorScheme.outline,
+                                                    color: widget.borderColor ??
+                                                        colorScheme.outline,
                                                   ),
                                                   right: BorderSide(
-                                                    color: colorScheme.outline,
+                                                    color: widget.borderColor ??
+                                                        colorScheme.outline,
                                                   ),
                                                 ),
                                               ),
@@ -1127,7 +1147,7 @@ class _MultipleSearchSelectionState<T>
                     ),
                   ],
                   if (widget.maxSelectedItems == null)
-                    if (widget.showSelectAllButton ?? true)
+                    if (widget.showSelectAllButton)
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: _selectAllItems,
@@ -1141,7 +1161,7 @@ class _MultipleSearchSelectionState<T>
                       ),
                 ],
               ),
-              if (pickedItems.isNotEmpty && (widget.showClearAllButton ?? true))
+              if (pickedItems.isNotEmpty && (widget.showClearAllButton))
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: _clearAllPickedItems,
@@ -1169,17 +1189,17 @@ class _MultipleSearchSelectionState<T>
                     top: BorderSide(
                       color: widget.showClearAllButton ||
                               widget.showSelectAllButton
-                          ? colorScheme.outline
+                          ? widget.borderColor ?? colorScheme.outline
                           : Colors.transparent,
                     ),
                     left: BorderSide(
-                      color: colorScheme.outline,
+                      color: widget.borderColor ?? colorScheme.outline,
                     ),
                     right: BorderSide(
-                      color: colorScheme.outline,
+                      color: widget.borderColor ?? colorScheme.outline,
                     ),
                     bottom: BorderSide(
-                      color: colorScheme.outline,
+                      color: widget.borderColor ?? colorScheme.outline,
                     ),
                   ),
                 ),
@@ -1195,21 +1215,33 @@ class _MultipleSearchSelectionState<T>
                 controller: widget.searchFieldTextEditingController,
                 style: widget.searchFieldTextStyle,
                 decoration: widget.searchFieldInputDecoration ??
-                    InputDecoration(
-                      contentPadding: const EdgeInsets.only(left: 8),
-                      hintText: widget.hintText,
-                      hintStyle: textTheme.labelLarge,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
+                    const InputDecoration().copyWith(
+                      //hintText: widget.hintText,
+                      labelText: widget.hintText,
                       suffixIcon: widget.showClearSearchFieldButton
                           ? IconButton(
                               onPressed: _onClearTextField,
-                              icon: const Icon(Icons.clear),
+                              icon: const Icon(Icons.close),
                             )
                           : null,
                     ),
+                autofocus: widget.searchFieldAutofocus ?? false,
+                // decoration: widget.searchFieldInputDecoration ??
+                //     InputDecoration(
+                //       contentPadding: const EdgeInsets.only(left: 8),
+                //       hintText: widget.hintText,
+                //       hintStyle: textTheme.labelLarge,
+                //       border: OutlineInputBorder(
+                //         borderSide: BorderSide.none,
+                //         borderRadius: BorderRadius.circular(16),
+                //       ),
+                //       suffixIcon: widget.showClearSearchFieldButton
+                //           ? IconButton(
+                //               onPressed: _onClearTextField,
+                //               icon: const Icon(Icons.clear),
+                //             )
+                //           : null,
+                //     ),
                 onChanged: (value) {
                   showedItems = _searchAllItems(value);
                   if (widget.itemsVisibility == ShowedItemsVisibility.onType) {
@@ -1232,13 +1264,13 @@ class _MultipleSearchSelectionState<T>
                   color: colorScheme.surface,
                   border: Border(
                     bottom: BorderSide(
-                      color: colorScheme.outline,
+                      color: widget.borderColor ?? colorScheme.outline,
                     ),
                     left: BorderSide(
-                      color: colorScheme.outline,
+                      color: widget.borderColor ?? colorScheme.outline,
                     ),
                     right: BorderSide(
-                      color: colorScheme.outline,
+                      color: widget.borderColor ?? colorScheme.outline,
                     ),
                   ),
                 ),
