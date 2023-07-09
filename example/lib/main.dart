@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Multiple Search Selection Example',
       theme: ThemeData(
+        useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
       scrollBehavior: ScrollConfiguration.of(context).copyWith(
@@ -58,7 +59,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         onItemAdded: (c) {},
-        showClearSearchFieldButton: true,
         createOptions: CreateOptions(
           createItem: (text) {
             return Country(name: text, iso: text);
@@ -109,41 +109,12 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         sortShowedItems: true,
         sortPickedItems: true,
-        selectAllButton: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.blue),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Select All',
-                style: kStyleDefault,
-              ),
-            ),
-          ),
-        ),
-        clearAllButton: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.red),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Clear All',
-                style: kStyleDefault,
-              ),
-            ),
-          ),
-        ),
+
         caseSensitiveSearch: false,
         fuzzySearch: FuzzySearch.none,
-        itemsVisibility: ShowedItemsVisibility.alwaysOn,
-        showSelectAllButton: true,
         maximumShowItemsHeight: 200,
+        showClearAllButton: true,
+        showSelectAllButton: true,
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
