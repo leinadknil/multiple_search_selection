@@ -1040,12 +1040,13 @@ class _MultipleSearchSelectionState<T>
                                               ),
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: widget
-                                                    .horizontalPaddingSearchTextField ??
-                                                0,
-                                            vertical: widget
-                                                    .verticalPaddingSearchTextField ??
-                                                0),
+                                          horizontal: widget
+                                                  .horizontalPaddingSearchTextField ??
+                                              0,
+                                          vertical: widget
+                                                  .verticalPaddingSearchTextField ??
+                                              0,
+                                        ),
                                         child: TextField(
                                           key: const Key('toggle-searchfield'),
                                           focusNode: widget.textFieldFocus,
